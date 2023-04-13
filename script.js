@@ -48,7 +48,7 @@ succ[8][0] = 0; succ[8][1] = 0; succ[8][2] = 0; succ[8][3] = 0; succ[8][4] = 1; 
 var graph = new Array();
 function initGraph() {
     graph[0] = new Array();
-    graph[0][0] = "."; graph[0][1] = "."; graph[0][2] = ".";
+    graph[0][0] = "X"; graph[0][1] = "."; graph[0][2] = ".";
     graph[1] = new Array();
     graph[1][0] = "."; graph[1][1] = "."; graph[1][2] = ".";
     graph[2] = new Array();
@@ -90,15 +90,68 @@ function testAlign(i, j, tour) {
         if(succ[i2][j2]) {
             i3 = getNumeroInvI(j2); //graph
             j3 = getNumeroInvJ(j2); //graph
-            if (graph[i3][j3] == tour) {
+            // if (graph[i3][j3] == tour) {
+            //     difI = i3 - i;
+            //     difJ = j3 - j;
+            //     if(difI>=0 && difJ>=0 && i3+difI<=2 && j3+difJ<=2) {
+            //         if(graph[i3+difI][j3+difJ] == tour)
+            //             return true;
+            //     } else if(difI<=0 && difJ<=0 && i+difI>=0 && j+difJ>=0) {
+            //         if(graph[i+difI][j+difJ] == tour)
+            //             return true;
+            //     } else if(difI>=0 && difJ<=0) {
+            //         if(i3+difI<=2 && j3+difJ>=0) {
+            //             if(graph[i3+difI][j3+difJ] == tour)
+            //                 return true;
+            //         } else {
+            //             if(graph[i3-difI][j3-difJ] == tour)
+            //                 return true;
+            //         }
+            //     } else if(difI<=0 && difJ>=0) {
+            //         if(i3+difI>=0 && j3+difJ<=2) {
+            //             if(graph[i3+difI][j3+difJ] == tour)
+            //                 return true;
+            //         } else {
+            //             if(graph[i3-difI][j3-difJ] == tour)
+            //                 return true;
+            //         }
+            //     }
+            // }
+            if(graph[i3][j3] == tour) {
                 difI = i3 - i;
                 difJ = j3 - j;
-                if(i3+difI<=2 && j3+difJ<=2) {
-                    if(graph[i3+difI][j3+difJ] == tour)
-                        return true;
-                } else if(i3-difI>=0 && j3-difJ>=0) {
-                    if(graph[i3-difI][j3-difJ] == tour)
-                        return true;
+                if(difI>=0 && difJ>=0) {
+                    if(i3+difI<=2 && j3+difJ<=2) {
+                        if(graph[i3+difI][j3+difJ] == tour)
+                            return true;
+                    } else {
+                        if(graph[i-difI][j-difJ] == tour)
+                            return true;
+                    }
+                } else if(difI<=0 && difJ<=0) {
+                    if(i3+difI>=0 && j3+difJ>=0) {
+                        if(graph[i3+difI][j3+difJ] == tour)
+                            return true;
+                    } else {
+                        if(graph[i-difI][j-difJ] == tour)
+                            return true;
+                    }
+                } else if(difI>0 && difJ<0) {
+                    if(i3+difI<=2 && j3+difJ>=0) {
+                        if(graph[i3+difI][j3+difJ] == tour)
+                            return true;
+                    } else {
+                        if(graph[i-difI][j-difJ] == tour)
+                            return true;
+                    }
+                } else if(difI<0 && difJ>0) {
+                    if(i3+difI>=0 && j3+difJ<=2) {
+                        if(graph[i3+difI][j3+difJ] == tour)
+                            return true;
+                    } else {
+                        if(graph[i-difI][j-difJ] == tour)
+                            return true;
+                    }
                 }
             }
         }
@@ -106,3 +159,151 @@ function testAlign(i, j, tour) {
     return false;
 }
 
+function buildButtons() {
+    let game = getID("game");
+
+    for(let i=0; i<=2; i++) {
+        for(let j=0; j<=2; j++) {
+            let input = create("input");
+            input.type = "button";
+            input.name = "";
+            input.id = "l"+i+"c"+j;
+            game.appendChild(input);
+            input.style.backgroundColor = "transparent";
+            if (i==0 && j==0) {
+                input.name = "X";
+                input.style.backgroundColor = "red";
+            } else if (i==2 && j==2) {
+                input.name = "O";
+                input.style.backgroundColor = "blue";
+            }
+        }
+    }
+}
+
+
+function afficheTableau() {
+    for (let i = 0; i < 3; i++) {
+        for(let j = 0; j < 3; j++) {
+            console.log("\t"+graph[i][j]);
+        }
+        console.log("\n");
+    }
+}
+
+
+var pions = 6;
+var tour="X"
+function posePieces() {
+    let game = getID("game");
+    let inputs = game.getElementsByTagName("input");
+    afficheTableau();
+    for(let i=0; i<inputs.length; i++) {
+        inputs[i].addEventListener("click", ()=>{
+            if (pions > 0) {
+                if(inputs[i].getAttribute("name") == "") {
+                    let id = inputs[i].getAttribute("id");
+                    if(tour == "X") {
+                        if (testAlign(getI(id), getJ(id), tour)) {
+                            alert("Ne pas aligner les pieces au début !");
+                        } else {
+                            graph[getI(id)][getJ(id)] = tour;
+                            inputs[i].setAttribute("name", tour);
+                            
+                            inputs[i].style.backgroundColor = "red";
+                            pions--;
+                            console.log("pieces : "+pions);
+                            afficheTableau();
+    
+                            tour = "O";
+                        }
+                    } else if(tour == "O") {
+                        if (testAlign(getI(id), getJ(id), tour)) {
+                            alert("Ne pas aligner les pieces au début !");
+                        } else {
+                            graph[getI(id)][getJ(id)] = tour;
+                            inputs[i].setAttribute("name", tour);
+                            
+                            inputs[i].style.backgroundColor = "blue";
+                            pions--;
+                            console.log("pieces : "+pions);
+                            afficheTableau();
+    
+                            tour = "X";
+                        }
+                    }
+                } else {
+                    alert("Cliquez sur un bouton vide !");
+                }
+            } else {
+                alert("Toutes les pieces sont posees");
+                
+            }
+
+        });
+        
+    }
+}
+
+function jouer() {
+    let game = getID("game");
+    let inputs = game.getElementsByTagName("input");
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener("click", ()=>{
+            let id = inputs[i].getAttribute("id");
+
+            if(tour == "X") {
+                if (inputs[i].getAttribute("name") == "X") {
+                    for (let j = 0; j <= 8; j++) {
+                        if(succ[getNumero(getI(id), getJ(id))][j]) {
+                            if (graph[getNumeroInvI(j)][getNumeroInvJ(j)] == ".") {
+                                let idSucc = "l"+getNumeroInvI(j)+"c"+getNumeroInvJ(j);
+                                getID(idSucc).addEventListener("click", ()=>{
+                                    getID(idSucc).style.backgroundColor = "red";
+                                    getID(idSucc).setAttribute("name", "X");
+                                    inputs[i].style.backgroundColor = "transparent";
+                                    inputs[i].setAttribute("name", "");
+                                    graph[getI(id)][getJ(id)] = ".";
+                                });
+
+                                afficheTableau();
+
+                                tour = "O";
+                                break;
+                            }
+                        }
+                        
+                    }
+                } else {
+                    alert("Jouer vos pieces red");
+                }
+            } else if(tour == "O") {
+                if (inputs[i].getAttribute("name") == "O") {
+                    for (let j = 0; j <= 8; j++) {
+                        if(succ[getNumero(getI(id), getJ(id))][j]) {
+                            if (graph[getNumeroInvI(j)][getNumeroInvJ(j)] == ".") {
+                                let idSucc = "l"+getNumeroInvI(j)+"c"+getNumeroInvJ(j);
+                                getID(idSucc).addEventListener("click", ()=>{
+                                    getID(idSucc).style.backgroundColor = "blue";
+                                    getID(idSucc).setAttribute("name", "O");
+                                    inputs[i].style.backgroundColor = "transparent";
+                                    inputs[i].setAttribute("name", "");
+                                    graph[getI(id)][getJ(id)] = ".";
+                                });
+
+                                afficheTableau();
+
+                                tour = "X";
+                                break;
+                            }
+                        }
+                        
+                    }
+                } else {
+                    alert("Jouer vos pieces blue");
+                }
+            }
+        })
+        
+    }
+}

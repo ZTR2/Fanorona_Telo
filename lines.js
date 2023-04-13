@@ -5,9 +5,9 @@ class lines {
         this.width = width;
         this.height = height;
         
-        this.left = x - width/2;
+        this.left = x - width/2 + 50;
         this.right = x + width/2;
-        this.top = y - height/2;
+        this.top = y - height/2 + 50;
         this.bottom = y + width/2;
 
         const topLeft={x:this.left,y:this.top};
@@ -28,14 +28,13 @@ class lines {
             for(let j=0; j<=2; j++) {
                 let p = new points(this.left, this.right, this.top, this.bottom, i, j);
                 this.tab[i][j] = p;
-                console.log(i+": "+this.tab[i][j].x + ", "+j+":"+ this.tab[i][j].y);
             }
         }
     }
 
     draw(ctx) {
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = "black";
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = "#c2956e";
 
         ctx.beginPath();
         
