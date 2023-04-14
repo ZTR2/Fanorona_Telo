@@ -86,6 +86,8 @@ function moveCercle(id, mouseX, mouseY) {
                             console.log("Deplacement autorisé");
                             shape.x = line.tab[posi][posj].x;
                             shape.y = line.tab[posi][posj].y;
+                            shape.i = posi;
+                            shape.j = posj;
 
                             if (testAlign(posi, posj, shape.colorOriginal)) {
                                 if(tour == noir)
@@ -107,9 +109,9 @@ function moveCercle(id, mouseX, mouseY) {
             }
         }
     }
-    else {
-        console.log("position occupé");
-    }
+    // else {
+    //     console.log("position occupé");
+    // }
 }
 
 function testAlign(i, j, couleur) {
