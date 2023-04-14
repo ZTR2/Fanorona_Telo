@@ -4,14 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GasyGame</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 
 <body>
+    <div class="mask" id="winner">
+        <div id="winner-message"></div>
+        <button onclick="restart()"> <i class="fa-sharp fa-solid fa-rotate-right"></i> Rejouer</button>
+    </div>
     <div class="container">
         <div class="left-side">
-
+            <div class="title">Fanorona Telo</div>
+            <div class="subtitle">"Jeu d'échec malagasy."</div>
+            <div class="help-container">
+                <div class="icon"><i class="fa-solid fa-circle-info"></i></div>
+                <div class="help" id="help"></div>
+            </div>
         </div>
         <div class="right-side">
             <canvas id="myCanvas" height="500" width="500"></canvas>

@@ -18,7 +18,8 @@ body {
 .left-side {
     height: 100%;
     width: 40%;
-    background-color: red;
+    background-color: #de8e59;
+    padding: 90px 50px;
 }
 
 .right-side {
@@ -33,4 +34,78 @@ body {
 
 #myCanvas {
     background-color: #e5d1b8;
+}
+
+.mask {
+    position: absolute;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, 0.7);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mask button {
+    border: none;
+    outline: none;
+    font-size: 22px;
+    color: #2b2129;
+    background-color: #ffffff;
+    padding: 10px 50px;
+    border-radius: 3px;
+    transition: all 100ms;
+}
+
+.mask button:hover {
+    border: 2px solid #ffffff ;
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.mask > div {
+    font-size: 18px;
+    color: #ffffff;
+    padding: 10px 50px;
+    margin: 12px;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 3px;
+}
+
+.subtitle {
+    font-size: 1.5em;
+    font-style: italic;
+    font-weight: 300;
+    color: #ffffff;
+    margin-bottom: 60%;
+}
+
+.help-containrer {
+    width: 100%;
+    display: flex;
+}
+
+.icon {
+    display: inline-block;
+    color: #2b2129;
+    font-size: 30px;
+}
+.help {
+    display: inline-block;
+    width: 80%;
+    border: 1px solid #2b2129;
+    padding: 8px 20px 10px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 22px;
+    word-wrap: break-word;
 }
